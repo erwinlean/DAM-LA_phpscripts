@@ -1,0 +1,14 @@
+{
+    "name": "augusto/assets",
+    "description": "Assets",
+    "require": {
+        "guzzlehttp/guzzle": "^7.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "César",
+            "email": "ceau05@outlook.com"
+        }
+    ]
+}
