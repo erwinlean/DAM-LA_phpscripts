@@ -34,9 +34,9 @@ $sservice = '/services/search?';
 $sclient = new GuzzleHttp\Client();
 
 $sparams = [];
-//$sparams['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"assetCreated:' . $yesterdayQuery;
-$sparams['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"';// > without date, so copy every day everything. Need to modify the script, so doesnt copy if the asset already exist in the path to copy
+$sparams['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"assetCreated:' . $yesterdayQuery;
 $sparams['num'] = 0;
+//$sparams['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"';// > without date, so copy every day everything. Need to modify the script, so doesnt copy if the asset already exist in the path to copy
 
 $headers = [];
 $headers['Authorization'] = 'Bearer ' . $authToken;
@@ -57,8 +57,8 @@ for($i=0; $i<$sjsonResponse->totalHits; $i+=50)
     $s2client = new GuzzleHttp\Client();
 
     $s2params = [];
-    // $sparams['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"assetCreated:' . $yesterdayQuery;
-    $s2params['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"'; // > without date, so copy every day everything. Need to modify the script, so doesnt copy if the asset already exist in the path to copy
+    $s2params['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"assetCreated:' . $yesterdayQuery;
+    //$s2params['q'] = 'ancestorPaths:"' . assetsCOPY_SOURCE__PATH . '"'; // > without date, so copy every day everything. Need to modify the script, so doesnt copy if the asset already exist in the path to copy
     $s2params['start'] = $i;
     $s2params['metadataToReturn'] = 'assetCreated';
 
@@ -125,7 +125,7 @@ for($i=0; $i<$sjsonResponse->totalHits; $i+=50)
     $s2client = new GuzzleHttp\Client();
 
     $s2params = [];
-    //$sparams['q'] = 'ancestorPaths:"' . assetsCOPY_TARGET__PATH . '"assetCreated:' . $yesterdayQuery;
+    //$s2params['q'] = 'ancestorPaths:"' . assetsCOPY_TARGET__PATH . '"assetCreated:' . $yesterdayQuery; // > Modified s2params from sparams, posible bad writed
     $s2params['q'] = 'ancestorPaths:"' . assetsCOPY_TARGET__PATH . '"'; //> without date, so copy every day everything. Need to modify the script, so doesnt copy if the asset already exist in the path to copy
     $s2params['start'] = $i;
     $s2params['metadataToReturn'] = 'assetCreated';
