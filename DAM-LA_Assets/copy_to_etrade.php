@@ -16,7 +16,7 @@ $service = '/services/apilogin?';
 $client = new GuzzleHttp\Client();
 
 $params = [];
-$params['username'] = assetsUSERNAME;
+$params['username'] = assetsUSERNAME;   
 $params['password'] = assetsPASSWORD;
 
 $response = $client->request('POST', $serverUrl . $service . http_build_query($params));
@@ -140,23 +140,31 @@ for($i=0; $i<$sjsonResponse->totalHits; $i+=50)
     {
         if (preg_match('/\.(png|jpg|JPG|JPEG|TIFF|tiff|tif|eps|psd)$/', $hit->metadata->filename) && preg_match('/\d{7,}/', $hit->metadata->filename)) 
         {
-            // Copy
-            $cservice = '/services/copy?';
-        
-            $cclient = new GuzzleHttp\Client();
-        
-            $cparams = [];
-            $cparams['source'] = $hit->metadata->assetPath;
-            $cparams['target'] = etradeAssetsCOPY_TARGET__PATH . '/' . $hit->metadata->filename;
-        
-            $crequest = $cclient->request('POST', $serverUrl . $cservice . http_build_query($cparams) , ['headers' => $headers]);
-            $cjsonResponse = json_decode($crequest->getBody());
-        
-            if($cjsonResponse->processedCount === 1)
-            {
-                $now = date('Y/m/d H:i:s', time());
-                $log  = $now . ' Copied asset ' . $hit->metadata->assetPath . PHP_EOL;
-                file_put_contents(logEtradeFILE, $log, FILE_APPEND);
+            // File to check and copy
+            // $logFile = __DIR__ . '/filesCopied.txt'; 
+            $logFile = assetsCOPIED_FILE;       
+            $logContents = file_get_contents($logFile);
+    
+            if (strpos($logContents, $hit->metadata->filename) === false) {
+                // Copy if filen name doesnt exist inside the txt
+                $cservice = '/services/copy?';
+            
+                $cclient = new GuzzleHttp\Client();
+            
+                $cparams = [];
+                $cparams['source'] = $hit->metadata->assetPath;
+                $cparams['target'] = etradeAssetsCOPY_TARGET__PATH . '/' . $hit->metadata->filename;
+            
+                $crequest = $cclient->request('POST', $serverUrl . $cservice . http_build_query($cparams) , ['headers' => $headers]);
+                $cjsonResponse = json_decode($crequest->getBody());
+            
+                if($cjsonResponse->processedCount === 1)
+                {
+                    $now = date('Y/m/d H:i:s', time());
+                    $log  = $now . ' Copied asset ' . $hit->metadata->assetPath . PHP_EOL;
+                    file_put_contents(logEtradeFILE, $log, FILE_APPEND);
+                    file_put_contents($logFile, $hit->metadata->filename . PHP_EOL, FILE_APPEND);
+                }
             }
         }
     }
@@ -173,4 +181,5 @@ $ljsonResponse = json_decode($lrequest->getBody());
 $now = date('Y/m/d H:i:s', time());
 $log  = $now . ' Script finished' . PHP_EOL;
 file_put_contents(logEtradeFILE, $log, FILE_APPEND);
+
 ?>
