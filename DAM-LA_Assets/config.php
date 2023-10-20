@@ -43,6 +43,9 @@ define('assetsCOPY_TARGET__PATH', '/SAIEP/PROVEEDORES/CARGA GENERAL');
 // New Target path, witch obtein Assets from  > assetsCOPY_SOURCE__PATH (copy) and assetsCOPY_TARGET__PATH (copy)
 define('etradeAssetsCOPY_TARGET__PATH', '/SAIEP/PROVEEDORES/ETRADE');
 
+// File register assets already copied
+define('assetsCOPIED_FILE', __DIR__ . '/filesCopied.txt');
+
 // Log File new Etrade log
 define('logEtradeFILE', '/opt/assets/assetsEtradeLog.log');
 
